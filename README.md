@@ -32,5 +32,4 @@ Starter repository for a Spotify-style backend in **Node.js** using **Express** 
   ```
 
 ## Notes
-- Add routes/controllers incrementally per your roadmap.
 - Static uploads are served from `/uploads` URL path.
