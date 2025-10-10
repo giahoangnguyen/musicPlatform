@@ -9,7 +9,7 @@ Starter repository for a Spotify-style backend in **Node.js** using **Express** 
 - `knexfile.js`, `nodemon.json`, `.env.example`, `package.json`
 
 ## Getting Started
-1. Copy `.env.example` to `.env` and set `JWT_SECRET`.
+1. Create `.env` and set `JWT_SECRET`.
 2. Install deps:
    ```bash
    npm install
