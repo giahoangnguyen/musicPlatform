@@ -18,7 +18,6 @@ Starter repository for a Spotify-style backend in **Node.js** using **Express** 
    ```bash
    npm run dev
    ```
-4. Health check: `GET http://localhost:3000/health` → `{ "status": "ok" }`
 
 ## Database
 - SQLite file at project root: `database.sqlite` (created after migrations)
