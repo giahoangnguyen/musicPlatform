@@ -93,24 +93,32 @@ module.exports = {
   // POST /api/artists
   async createArtist(req, res, next) {
     try {
-      const { name, image_url, background_url } = req.valid || {};
+      const { name, image_url, background_url, bio } = req.valid || {};
       const dup = await ArtistModel.findByName(name);
       if (dup) { const e = new Error('Artist already exists'); e.statusCode = 409; e.code = 'ARTIST_DUPLICATE'; throw e; }
-      const artist = await ArtistModel.create({ name, image_url, background_image_url: background_url });
+      const artist = await ArtistModel.create({ name, bio, image_url, background_image_url: background_url });
       res.status(201).json(artist);
     } catch (err) { next(err); }
   },
 
   // PUT /api/artists/:id
-  async updateArtist(req, res, next) {
-    try {
-      const { id, ...data } = req.valid;
-      const exists = await ArtistModel.findById(id);
-      if (!exists) { const e = new Error('Artist not found'); e.statusCode = 404; e.code = 'ARTIST_NOT_FOUND'; throw e; }
-      const updated = await ArtistModel.update(id, data);
-      res.json(updated);
-    } catch (err) { next(err); }
-  },
+async updateArtist(req, res, next) {
+  try {
+    const { id, background_url, ...data } = req.valid;
+
+    // Map background_url to the actual DB column name
+    if (typeof background_url !== 'undefined') {
+      data.background_image_url = background_url;  // ✅ correct mapping
+    }
+
+    const exists = await ArtistModel.findById(id);
+    if (!exists) { const e = new Error('Artist not found'); e.statusCode = 404; e.code = 'ARTIST_NOT_FOUND'; throw e; }
+
+    const updated = await ArtistModel.update(id, data);
+    res.json(updated);
+  } catch (err) { next(err); }
+},
+
 
   // DELETE /api/artists/:id
   async deleteArtist(req, res, next) {

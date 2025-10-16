@@ -63,6 +63,18 @@ class ArtistModel {
       .limit(limit).offset(offset);
   }
 
+  static async getTrending(limit = 20, offset = 0) {
+    const rows = await db('artists')
+      .select('*')
+      .orderBy('monthly_listeners', 'desc')
+      .orderBy('updated_at', 'desc')
+      .limit(limit)
+      .offset(offset);
+  
+    return this.castArtistArrayBooleans(rows);
+  }
+  
+
   static async getAlbums(artistId, limit = 20, offset = 0){
     return db('albums')
       .where({ artist_id: artistId })
